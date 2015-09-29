@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var postSchema = new mongoose.Schema({
                     title: String,
                     postContent: String,
-                    date: Date,
+                    /*date: {type:String, default: datePost},*/
                     url: String,
                     photo:String,
                     user: {//only one user

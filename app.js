@@ -157,6 +157,37 @@ app.delete("/posts/:id", routeMiddleware.ensureLoggedIn, routeMiddleware.ensureC
     res.redirect("/posts");
   });
 });
+// ******** COMMENTS ROUTES ********
+//INDEX
+app.get("/posts/:post_id/comments", function(req,res){
+  db.Post.find({post:req.params.post_id}).populate("title").populate("user").populate("photo").exec(function(err,comments){
+    res.render("comments/index",{comments:comments});
+  });
+});
+//NEW COMMENT
+/*app.get("/posts/:post_id/comments",routeMiddleware.ensureLoggedIn,function(req,res){
+  db.Post.findById(req.params.post_id, function(err,post){
+    res.render("comments/index", {post:post, author_id: req.session.id});
+  });
+});*/
+//CREATE COMMENT
+ app.post("/posts/:post_id/comments",routeMiddleware.ensureLoggedIn, function(req,res){
+  db.Comment.create(req.body.comment, function(err, comments){
+     if(err){
+       console.log(err);
+       res.render("comments/index");
+     }else{
+       db.Post.findById(req.params.post_id, function(err,post){
+         post.comments.push(comments);
+         console.log(comments);
+         comments.post = post._id;
+         comments.save();
+         post.save();
+         res.redirect("/posts/"+req.params.post_id);
+       });
+     }
+   });
+ });
 // START SERVER
 app.listen(3000, function(){
   console.log("Server is listening on port 3000");

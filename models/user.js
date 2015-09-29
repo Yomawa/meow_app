@@ -6,6 +6,12 @@ mongoose.set('debug', true);
 
 var userSchema = new mongoose.Schema ({
                       username: String,
+                      zipnumber: Number,
+                      catname: String,
+                      age: Number,
+                      favtoys: String,
+                      morecat: String,
+                      moreowner:String,
                       email: {
                         type: String,
                         required: true,

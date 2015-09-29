@@ -1,18 +1,23 @@
 <% include ../partials/header %>
 
 <div class="col-sm-4 col-md-offset-4">
-  <form method="POST" action="/signup">
+ <!--  <form method="POST" action="/signup"> -->
     <div class="form-group">
       
         <h2>Update your profile</h2>
         
       <div class="fileupload fileupload-new" data-provides="fileupload">
-<!--   <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+  <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
   <div>
     <span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" /></span>
     <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
   </div>
-</div> -->
+</div>
+     <div class="form-group">
+      <label for="zipnumber"> Favorite Toys:</label>
+      <input type="zipnumber" id="zipnumber" name="user[zipnumber]" class="form-control">
+    </div>
+
     <div class="form-group"> 
       <label for="catname"> Cat Name: </label>
       <input type="text" id="catname" name="user[catname]" class="form-control" autofocus>
@@ -34,7 +39,7 @@
       <input type="moreowner" id="moreowner" name="user[moreowner]" class="form-control">
     </div>
     <input type="submit" value="Sign up" class="btn btn-primary">
-  </form>
+  <!-- </form> -->
 
       <!-- <a href="/login">Already have an account? Log in here</a> -->
     </div>

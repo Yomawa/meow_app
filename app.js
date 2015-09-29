@@ -98,10 +98,16 @@ app.post("/signup", function (req,res){
 app.get("/logout", function (req, res){
   req.logout();
   res.redirect("/");
+});//NEW
+app.get("/users/new", function(req, res){
+  res.render("users/new");
 });
+
 //SHOW
-app.get("/users/:id", function (req,res){
-  res.render("users/show");
+app.get("/users/:id", routeMiddleware.ensureLoggedIn, function (req,res){
+  db.User.findById(req.params.id, function(err, user){
+    res.render("users/show",{user: user});
+  });
 });
 
 //EDIT

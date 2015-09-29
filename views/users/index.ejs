@@ -1,0 +1,22 @@
+<% include ../partials/header %>
+<div class="container">
+  <div class="container-fluid">
+    <h2>PROFILE USERS</h2>
+        <% users.forEach(function(user) { %>
+          <div class="col-sm-4">
+            <div class="thumbnail">
+              <img src="<%= user.photo %>" alt="image">
+              <div class="caption">
+                <h3>User Name:<%= user.username %></h3>
+                <p>...</p>
+                <p><a href="#" class="btn btn-primary" role="button">Edit</a> <a href="#" class="btn btn-default" role="button">Delete</a></p>
+              </div>
+            </div>
+          </div>
+ <% }) %>
+  </div>
+</div>
+
+
+    
+<% include ../partials/footer %>

@@ -15,5 +15,19 @@
   "bugs": {
     "url": "https://github.com/Yomawa/meow_app/issues"
   },
-  "homepage": "https://github.com/Yomawa/meow_app#readme"
+  "homepage": "https://github.com/Yomawa/meow_app#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.14.1",
+    "cookie": "^0.2.2",
+    "cookie-session": "^1.2.0",
+    "dotenv": "^1.2.0",
+    "ejs": "^2.3.4",
+    "express": "^4.13.3",
+    "method-override": "^2.3.5",
+    "mongoose": "^4.1.9",
+    "morgan": "^1.6.1",
+    "request": "^2.64.0",
+    "session": "^0.1.0"
+  }
 }

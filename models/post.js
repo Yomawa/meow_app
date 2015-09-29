@@ -5,7 +5,7 @@ var postSchema = new mongoose.Schema({
                     postContent: String,
                     date: Date,
                     url: String,
-                    //votes: Number,
+                    photo:String,
                     user: {//only one user
                       type: mongoose.Schema.Types.ObjectId,
                       ref: "User"//mongoose.model("User", UserSchema);this is were we get User from

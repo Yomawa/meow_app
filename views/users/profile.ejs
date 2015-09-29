@@ -1,0 +1,43 @@
+<% include ../partials/header %>
+
+<div class="col-sm-4 col-md-offset-4">
+  <form method="POST" action="/signup">
+    <div class="form-group">
+      
+        <h2>Update your profile</h2>
+        
+      <div class="fileupload fileupload-new" data-provides="fileupload">
+<!--   <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+  <div>
+    <span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" /></span>
+    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+  </div>
+</div> -->
+    <div class="form-group"> 
+      <label for="catname"> Cat Name: </label>
+      <input type="text" id="catname" name="user[catname]" class="form-control" autofocus>
+    </div>
+     <div class="form-group"> 
+      <label for="age"> Age:     </label>
+      <input type="text" id="age" name="user[age]" class="form-control" autofocus>
+    </div>
+    <div class="form-group">
+      <label for="favtoys"> Favorite Toys:</label>
+      <input type="favtoys" id="favtoys" name="user[favtoys]" class="form-control">
+    </div>
+    <div class="form-group">
+      <textarea> for="morecat"> Tell us more aobut your cat:</textarea>
+      <input type="morecat" id="morecat" name="user[morecat]" class="form-control">
+    </div>
+      <div class="form-group">
+      <textarea> for="moreowner"> Tell us more aobut your cat:</textarea>
+      <input type="moreowner" id="moreowner" name="user[moreowner]" class="form-control">
+    </div>
+    <input type="submit" value="Sign up" class="btn btn-primary">
+  </form>
+
+      <!-- <a href="/login">Already have an account? Log in here</a> -->
+    </div>
+
+ 
+<% include ../partials/footer %>

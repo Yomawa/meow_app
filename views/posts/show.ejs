@@ -6,11 +6,11 @@
    
       <div class="thumbnail">
         <div class="caption">
-          <h3>Title:<%= post.title %></h3>
-          <p>User: <%= post.user.username %></p>
+          <h3><%= post.title %></h3>
+          <p><a href="/users/index"> <%= post.user.username %></a></p>
           <p>Date:<%= post.date %></p>
-          <p>Content: <%= post.postContent%></p>
-          <img src="<%= post.photo%>"> 
+          <p><%= post.postContent%></p>
+          <img src="<%= post.photo%>" alt="my cat" width=200 height=200> 
 
         </div>
       </div>

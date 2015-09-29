@@ -10,10 +10,20 @@ var routeHelpers = {
     }
   },
 
-  ensureCorrectUser: function(req, res, next) {
+  ensureCorrectPostUser: function(req, res, next) {
     db.Post.findById(req.params.id).populate('user').exec(function(err,post){
       if (post.user.id !== req.session.id) {
         res.redirect('/posts');
+      }
+      else {
+       return next();
+      }
+    });
+  },
+  ensureCorrectUser: function(req, res, next) {
+    db.User.findById(req.params.id, function(err,user){
+      if (user.id !== req.session.id) {
+        res.redirect('/');
       }
       else {
        return next();

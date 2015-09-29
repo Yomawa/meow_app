@@ -5,8 +5,9 @@ var mongoose = require('mongoose');
 mongoose.set('debug', true);
 
 var userSchema = new mongoose.Schema ({
+                      photo: String,
                       username: String,
-                      zipnumber: Number,
+                      zipcode: Number,
                       catname: String,
                       age: Number,
                       favtoys: String,
@@ -19,7 +20,6 @@ var userSchema = new mongoose.Schema ({
                         unique: true
                         },
                       password: {type: String, required: true},
-                      photo: String,
                       posts: [{
                         type: mongoose.Schema.Types.ObjectId,
                         ref: "Post"

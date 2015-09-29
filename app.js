@@ -98,7 +98,8 @@ app.post("/signup", function (req,res){
 app.get("/logout", function (req, res){
   req.logout();
   res.redirect("/");
-});//NEW
+});
+//NEW
 app.get("/users/new", function(req, res){
   res.render("users/new");
 });
@@ -111,16 +112,24 @@ app.get("/users/:id", routeMiddleware.ensureLoggedIn, function (req,res){
 });
 
 //EDIT
-app.get("/users/:id/edit", function (req, res){
-  res.render("users/edit");
+app.get("/users/:id/edit",routeMiddleware.ensureLoggedIn, routeMiddleware.ensureCorrectUser, function (req, res){
+  db.User.findById(req.params.id, function(err,user){
+    /*if (err) throw err;*/
+    res.render("users/edit", {user: user});
+  });
 });
 //UPDATE
-app.put("/users/:id", function (req,res){
-  res.redirect("/users");
+app.put("/users/:id",routeMiddleware.ensureLoggedIn, function (req,res){
+  db.User.findByIdAndUpdate(req.params.id, req.body.user, function(err, user){
+    res.redirect("/users/"+user.id);//+user.id to stay on the same page
+  });
 });
 //DELETE
-app.delete("/users/:id", function (req,res){
-  res.redirect("/users");
+app.delete("/users/:id", routeMiddleware.ensureLoggedIn, function (req,res){
+  db.User.findByIdAndRemove(req.params.id, function(err, user){
+    if (err) throw err;
+      res.redirect("/users");
+  });
 });
 
 // ******** POST ROUTES ********
@@ -145,12 +154,12 @@ app.post("/posts", routeMiddleware.ensureLoggedIn, function (req,res){
 });
 //SHOW
 app.get("/posts/:id",routeMiddleware.ensureLoggedIn, function (req,res){
-  db.Post.findById(req.params.id).populate("comments").populate("user", "username").exec(function(err,post){
+  db.Post.findById(req.params.id).populate("comments").populate("user", "username").populate("user","photo").exec(function(err,post){
     res.render("posts/show",{post:post});
   });
 });
 //EDIT
-app.get("/posts/:id/edit", function (req,res){
+app.get("/posts/:id/edit", routeMiddleware.ensureLoggedIn, routeMiddleware.ensureCorrectPostUser, function (req,res){
   res.render("posts/edit");
 });
 //UPDATE
@@ -158,7 +167,7 @@ app.put("/posts/:id", function (req,res){
   res.redirect("/posts");
 });
 // DELETE
-app.delete("/posts/:id", routeMiddleware.ensureLoggedIn, routeMiddleware.ensureCorrectUser, function (req,res){
+app.delete("/posts/:id", routeMiddleware.ensureLoggedIn, routeMiddleware.ensureCorrectPostUser, function (req,res){
   db.Post.findByIdAndRemove(req.params.id, function(err, post){
     res.redirect("/posts");
   });

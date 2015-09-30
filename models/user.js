@@ -7,7 +7,7 @@ mongoose.set('debug', true);
 var userSchema = new mongoose.Schema ({
                       photo: String,
                       username: String,
-                      zipcode: Number,
+                      zipcode: String,
                       catname: String,
                       age: Number,
                       favtoys: String,

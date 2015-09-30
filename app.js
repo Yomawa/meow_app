@@ -40,6 +40,8 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(morgan('tiny'));
 
+
+
 //COOKIE SESSION
 app.use(session({
   maxAge: 3600000,//time
@@ -49,6 +51,31 @@ app.use(session({
 // use loginMiddleware everywhere!
 app.use(loginMiddleware);
 /*********  ROUTES *********/
+
+//ROOT for YELP
+app.get("/users/search", routeMiddleware.ensureLoggedIn, function (req,res){
+  // Request API access: http://www.yelp.com/developers/getting_started/api_access
+
+var yelp = require("yelp").createClient({
+  consumer_key: process.env.CONSUMER_KEY, 
+  consumer_secret: process.env.CONSUMER_SECRET,
+  token: process.env.TOKEN,
+  token_secret: process.env.TOKEN_SECRET
+});
+
+// See http://www.yelp.com/developers/documentation/v2/search_api
+yelp.search({term: "coffee", location: "94110"}, function(error, data) {
+  console.log(error);
+  console.log(data);
+});
+
+// See http://www.yelp.com/developers/documentation/v2/business
+yelp.business("yelp-san-francisco", function(error, data) {
+  console.log(error);
+  console.log(data);
+  res.render("users/search",{data:data});
+ });
+});
 //ROOT
 app.get("/", routeMiddleware.ensureLoggedIn, function (req,res){
   console.log("Server works");
@@ -100,9 +127,9 @@ app.get("/logout", function (req, res){
   res.redirect("/");
 });
 //NEW
-app.get("/users/new", function(req, res){
+/*app.get("/users/new", function(req, res){
   res.render("users/new");
-});
+});*/
 
 //SHOW
 app.get("/users/:id", routeMiddleware.ensureLoggedIn, function (req,res){
@@ -179,12 +206,6 @@ app.get("/posts/:post_id/comments", function(req,res){
     res.render("comments/index",{comments:comments});
   });
 });
-//NEW COMMENT
-/*app.get("/posts/:post_id/comments",routeMiddleware.ensureLoggedIn,function(req,res){
-  db.Post.findById(req.params.post_id, function(err,post){
-    res.render("comments/index", {post:post, author_id: req.session.id});
-  });
-});*/
 //CREATE COMMENT
  app.post("/posts/:post_id/comments",routeMiddleware.ensureLoggedIn, function(req,res){
   db.Comment.create(req.body.comment, function(err, comments){

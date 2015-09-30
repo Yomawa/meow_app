@@ -4,9 +4,19 @@ var express = require('express'),
     morgan = require('morgan'),
     methodOverride = require('method-override'),
     session = require("cookie-session"),
-    db = require('./models');
+    db = require('./models'),
+
+   
+ //YELP
+     /*oauthSignature = require('oauth-signature'),  
+     n = require('nonce')(),  
+     request = require('request'),  
+     qs = require('querystring'),  */
+ /*_ = require('lodash');*/
+
     loginMiddleware = require("./middleware/loginHelper");
     routeMiddleware = require("./middleware/routeHelper");
+
     require('dotenv').load();
 
 app.set('view engine', 'ejs');
@@ -54,28 +64,25 @@ app.use(loginMiddleware);
 
 //ROOT for YELP
 app.get("/users/search", routeMiddleware.ensureLoggedIn, function (req,res){
+  var yelp = require("yelp").createClient({
+    consumer_key: process.env.CONSUMER_KEY, 
+    consumer_secret: process.env.CONSUMER_SECRET,
+    token: process.env.TOKEN,
+    token_secret: process.env.TOKEN_SECRET
+  });
   // Request API access: http://www.yelp.com/developers/getting_started/api_access
-
-var yelp = require("yelp").createClient({
-  consumer_key: process.env.CONSUMER_KEY, 
-  consumer_secret: process.env.CONSUMER_SECRET,
-  token: process.env.TOKEN,
-  token_secret: process.env.TOKEN_SECRET
+  db.User.findById(req.session.id,function(err,user){
+    yelp.search({term: "coffee", location: user.zipcode, limit: 4}, function(error, data) {
+      res.render("users/search", data);
+     /*res.send(data); */ 
+    });
+  });
 });
+//pseudo code
+//search user by session id
+//make yelps search uer's .zipcode 
+//return 
 
-// See http://www.yelp.com/developers/documentation/v2/search_api
-yelp.search({term: "coffee", location: "94110"}, function(error, data) {
-  console.log(error);
-  console.log(data);
-});
-
-// See http://www.yelp.com/developers/documentation/v2/business
-yelp.business("yelp-san-francisco", function(error, data) {
-  console.log(error);
-  console.log(data);
-  res.render("users/search",{data:data});
- });
-});
 //ROOT
 app.get("/", routeMiddleware.ensureLoggedIn, function (req,res){
   console.log("Server works");
@@ -161,7 +168,7 @@ app.delete("/users/:id", routeMiddleware.ensureLoggedIn, function (req,res){
 
 // ******** POST ROUTES ********
 //INDEX
-app.get("/posts/", routeMiddleware.ensureLoggedIn, function (req,res){
+app.get("/posts", routeMiddleware.ensureLoggedIn, function (req,res){
   db.Post.find({}).populate("user").exec(function(err,posts){
     res.render("posts/index", {posts: posts});
   });
@@ -181,8 +188,8 @@ app.post("/posts", routeMiddleware.ensureLoggedIn, function (req,res){
 });
 //SHOW
 app.get("/posts/:id",routeMiddleware.ensureLoggedIn, function (req,res){
-  db.Post.findById(req.params.id).populate("comments").populate("user", "username").populate("user","photo").exec(function(err,post){
-    res.render("posts/show",{post:post});
+  db.Post.findById(req.params.id).deepPopulate("comments.author user").exec(function(err,outerPost){
+      res.render("posts/show",{post:outerPost});
   });
 });
 //EDIT
@@ -202,22 +209,23 @@ app.delete("/posts/:id", routeMiddleware.ensureLoggedIn, routeMiddleware.ensureC
 // ******** COMMENTS ROUTES ********
 //INDEX
 app.get("/posts/:post_id/comments", function(req,res){
-  db.Post.find({post:req.params.post_id}).populate("title").populate("user").populate("photo").exec(function(err,comments){
-    res.render("comments/index",{comments:comments});
+  db.Post.findById(req.params.post_id).populate("user comment").exec(function(err,comments){
+    res.render("posts/show",{comments:comments}); 
   });
 });
 //CREATE COMMENT
  app.post("/posts/:post_id/comments",routeMiddleware.ensureLoggedIn, function(req,res){
-  db.Comment.create(req.body.comment, function(err, comments){
+  var newComment = new db.Comment(req.body.comment);
+  newComment.author = req.session.id;
+  newComment.post = req.params.post_id;
+  newComment.save(function(err, comments){
      if(err){
        console.log(err);
        res.render("comments/index");
      }else{
        db.Post.findById(req.params.post_id, function(err,post){
          post.comments.push(comments);
-         console.log(comments);
-         comments.post = post._id;
-         comments.save();
+         // console.log(comments);
          post.save();
          res.redirect("/posts/"+req.params.post_id);
        });

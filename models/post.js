@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 var postSchema = new mongoose.Schema({
                     title: String,
@@ -16,6 +17,7 @@ var postSchema = new mongoose.Schema({
                       }]
                   });
 
+postSchema.plugin(deepPopulate);
 
 var Post = mongoose.model("Post", postSchema);//this creats collection and collection name,models are mongoose specificly//uses scheema//this weill we used in ref: it is very importnat
 

@@ -73,9 +73,9 @@ app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,re
     // find second user by params.user_id (this is user you want to chat with)
     db.User.findById(req.params.user_id, function (err2, user2){
       // make api call with first user's zipcode
-      yelp.search({term: "coffee", location: user1.zipcode, limit: 4}, function (error1, data1) {
+      yelp.search({term: "coffee", location: user1.zipcode, limit: 2}, function (error1, data1) {
         // make api call with second user's zip code
-        yelp.search({term: "coffee", location: user2.zipcode, limit: 4}, function (error2, data2) {          
+        yelp.search({term: "coffee", location: user2.zipcode, limit: 2}, function (error2, data2) {          
           // render the chat page, pass in both the users and both of their api call response datas
           res.render("users/chat", {data1: data1, data2: data2, user1: user1, user2: user2});
          /*res.send(data); */ 
@@ -176,7 +176,7 @@ app.delete("/users/:id", routeMiddleware.ensureLoggedIn, function (req,res){
 //INDEX
 app.get("/posts", routeMiddleware.ensureLoggedIn, function (req,res){
   db.Post.find({}).populate("user").exec(function(err,posts){
-    res.render("posts/index", {posts: posts});
+    res.render("posts/index", {posts: posts.reverse()});
   });
 });
 //NEW

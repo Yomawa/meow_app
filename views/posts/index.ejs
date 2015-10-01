@@ -18,36 +18,38 @@
               <div class="col-sm-10">  
                   <div class="row">
                     <div class="col-sm-4">
-                      <h4><a href="/users/<%= post.user.id %>"><%= post.user.username %></a></h4>
+                      <h4 ><a class="h" href="/users/<%= post.user.id %>"><%= post.user.username %></a></h4>
                     </div>
                      <div class="col-sm-4">
-                       <h6>Date:<%= post.user.date %></h6>
+                       <h6 class="right">Date:<%= post.user.date %></h6>
                     </div>
                   </div>
               </div>
+
                   <!-- <div class="row">
                       <h4><a href="/users/<%= post.user.id %>"><%= post.user.username %></a></h4>
                   </div> -->
           </div>
-                    
           </div>
-          
-            <h5><%= post.title %></h5>
-          
+              <div class="col-sm-12">
+                <h5><%= post.title %></h5>
+              </div>
           <div>
           <img src="<%= post.photo %>" class="post_image" alt="cat" />
           </div>
-          <div class="row">
-              <div class="col-md-4">
-                <a href="" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Like</a>
-               </div>
-              <div class="col-md-4">
-                  <a href="/posts/<%= post.id %>"class="btn btn-default btn-sm"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Comment</a> 
-               </div>
-               <div class="col-md-4">
-                  <a href=""class="btn btn-default btn-sm"><span class="glyphicon glyphicon-share-alt"></span> Share</a>
-               </div>
-          </div>
+            <div class="button">
+              <div class="row">
+                  <div class="col-md-4">
+                    <a href="" class="button" ><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Like</a>
+                   </div>
+                  <div class="col-md-4">
+                      <a class="button" href="/posts/<%= post.id %>"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Comment</a> 
+                   </div>
+                   <div class="col-md-4">
+                      <a href=""class="button"><span class="glyphicon glyphicon-share-alt"></span> Share</a>
+                   </div>
+              </div>
+            </div>
           <br>
           <% if (post.user.id===currentUser.id) { %><a href="/users/<%= currentUser.id %>">
             <form action="/posts/<%= post.id %>?_method=DELETE" method="POST">

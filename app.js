@@ -70,7 +70,7 @@ app.use(loginMiddleware);
   //});
   // Request API access: http://www.yelp.com/developers/getting_started/api_access
   //db.User.findById(req.session.id,function(err,user){
-   // yelp.search({term: "coffee", location: user.zipcode, limit: 4}, function(error, data) {
+   // yelp.search({term: "coffee", location: user.zipcode, limit: 1}, function(error, data) {
     //  res.render("users/search", data);
      /*res.send(data); */ 
     //});
@@ -91,9 +91,9 @@ app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,re
     // find second user by params.user_id (this is user you want to chat with)
     db.User.findById(req.params.user_id, function (err2, user2){
       // make api call with first user's zipcode
-      yelp.search({term: "coffee", location: user1.zipcode, limit: 4}, function (error1, data1) {
+      yelp.search({term: "coffee", location: user1.zipcode, limit: 1}, function (error1, data1) {
         // make api call with second user's zip code
-        yelp.search({term: "coffee", location: user2.zipcode, limit: 4}, function (error2, data2) {        
+        yelp.search({term: "coffee", location: user2.zipcode, limit: 1}, function (error2, data2) {          
           // render the chat page, pass in both the users and both of their api call response datas
           res.render("users/chat", {data1: data1, data2: data2, user1: user1, user2: user2});
          /*res.send(data); */ 

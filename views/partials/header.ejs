@@ -24,17 +24,23 @@
 <script charset="utf-8" src="//ucarecdn.com/widget/2.5.5/uploadcare/uploadcare.full.min.js"></script>
 </head>
 <body>
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-custom">   
     <!-- Here's where you put all your navigation -->
       <div class="container">
-            <div class="navbar-brand"  <a href="#">LOGO</a></div>
+            <div class="navbar-brand" <a href="#"><img src="/img/meownow.png"></a></div>
                 <ul class= "nav navbar-nav navbar-right">
-                    <li><a href="/posts">Posts</a></li>
-                    <% if (currentUser) { %><li><a href="/users/<%= currentUser.id %>"><%= currentUser.username %></a></li>
-                    <li><a href="#">Message</a></li>
-                    <li><a href="/logout">Log out</a></li>
-                    <% } %>
+                    
+                    <% if (currentUser) {%> 
+                    <li class="prof"><a href="/users/<%= currentUser.id %>">
+                    <img class="img-circle" src="<%= currentUser.photo %>"alt="profile" width="50" height="50">
+                    <%= currentUser.username %> </a></li>
+                    <li class="top"><a href="/posts">HOME</a></li>
+                    <li class="top"><a href="#">MESSAGE</a></li>
+                    <li class="top"><a href="/users">USERS</a></li>
+                    <li class="top"><a href="/logout">LOG OUT</a></li>
+                    <%}%>
                 </ul>
             </div>
+      </div>
   </nav>
       

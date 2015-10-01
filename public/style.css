@@ -1,3 +1,45 @@
 h4{
   font-style: italic;
 }
+nav{
+  height: 130px;
+  
+}
+/*.navbar-default{
+  
+}*/
+ul li a{
+  color: black;
+  font-size: 18px;
+  color: white;
+  /*font-weight: bolder;*/
+}
+.navbar-custom {
+    background-color:#229922;
+    color:#ffffff;
+    border-radius:0;
+    background-color: #9AA2FF;
+}
+ a : link { 
+    background-color: yellow;
+}
+}
+li{
+  padding: 5px;
+  list-style: inline;
+  font-size: 20px;
+
+}
+.top{
+  padding-top: 30px;
+  font-size: 16px;
+  color: white;
+  
+
+
+}
+.prof{
+  padding-top: 16px;
+  color: white;
+  
+}

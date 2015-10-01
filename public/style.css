@@ -43,3 +43,9 @@ li{
   color: white;
   
 }
+
+@media (max-width: 200px) {
+  .facet_sidebar {
+    display: none;
+  }
+}

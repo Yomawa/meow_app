@@ -1,3 +1,10 @@
+.post_image {
+  margin: 0 auto;
+  display: table;
+  width: 100%;
+  max-width: 400px;
+}
+
 h4{
   font-style: italic;
 }
@@ -44,8 +51,8 @@ li{
   
 }
 
-@media (max-width: 200px) {
+/*@media (max-width: 200px) {
   .facet_sidebar {
     display: none;
   }
-}
+}*/

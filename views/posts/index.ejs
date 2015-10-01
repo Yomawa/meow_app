@@ -1,68 +1,64 @@
 <% include ../partials/header %>
-<div class="container">
-  <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-6 col-md-offset-4">
-          <a href="/posts/new" class="btn btn-default btn-md"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>New Post</a>
-        </div>
-       </div> 
-         <br>  
-      <% posts.forEach(function(post) { %> 
-        <div class="row">
-          <div class="col-md-4 col-md-offset-4">
-            <div class="thumbnail">
-              <div class="caption">
-                <div class="row">
-                    <div class="col-sm-2">
-                      <img src="<%= post.user.photo %>"alt="profileimg" class="img-circle" width="50" height="50">
-                    </div>
-                    <div class="col-sm-10">  
-                        <div class="row">
-                          <div class="col-sm-4">
-                            <h4><a href="/users/<%= post.user.id %>"><%= post.user.username %></a></h4>
-                          </div>
-                           <div class="col-sm-4">
-                             <h6>Date:<%= post.user.date %></h6>
-                          </div>
-                        </div>
-                    </div>
-                        <!-- <div class="row">
-                            <h4><a href="/users/<%= post.user.id %>"><%= post.user.username %></a></h4>
-                        </div> -->
-                </div>
-                          
-                </div>
-                
-                  <h5><%= post.title %></h5>
-                
-                
-                  <img src="<%= post.photo %>" alt="cat" width="300px">
-               
-                <div class="row">
-                    <div class="col-md-4">
-                      <a href="" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Like</a>
-                     </div>
-                    <div class="col-md-4">
-                        <a href="/posts/<%= post.id %>"class="btn btn-default btn-sm"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Comment</a> 
-                     </div>
-                     <div class="col-md-4">
-                        <a href=""class="btn btn-default btn-sm"><span class="glyphicon glyphicon-share-alt"></span> Share</a>
-                     </div>
-                </div>
-                <br>
-                <% if (post.user.id===currentUser.id) { %><a href="/users/<%= currentUser.id %>">
-                  <form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
-                      <input type="submit" value="DELETE" class="btn btn-danger">
-                  </form>
-                <% } %>
-                  <!-- <input type="submit" value="NEW COMMENT" class="btn btn-success"> -->
-              </div>
-            </div>
-          </div>
-        </div>
-     </div>
-</div>
- <% }) %>
+<div class="row">
+  <div class="col-sm-6 col-md-offset-4">
+    <a href="/posts/new" class="btn btn-default btn-md"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>New Post</a>
+  </div>
+ </div> 
+   <br>  
+<% posts.forEach(function(post) { %> 
+  <div class="row">
+    <div class="col-sm-4 col-md-offset-4">
 
+      <div class="thumbnail">
+        <div class="caption">
+          <div class="row">
+              <div class="col-sm-2">
+                <img src="<%= post.user.photo %>"alt="profileimg" class="img-circle" width="50" height="50">
+              </div>
+              <div class="col-sm-10">  
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <h4><a href="/users/<%= post.user.id %>"><%= post.user.username %></a></h4>
+                    </div>
+                     <div class="col-sm-4">
+                       <h6>Date:<%= post.user.date %></h6>
+                    </div>
+                  </div>
+              </div>
+                  <!-- <div class="row">
+                      <h4><a href="/users/<%= post.user.id %>"><%= post.user.username %></a></h4>
+                  </div> -->
+          </div>
+                    
+          </div>
+          
+            <h5><%= post.title %></h5>
+          
+          <div>
+          <img src="<%= post.photo %>" class="post_image" alt="cat" />
+          </div>
+          <div class="row">
+              <div class="col-md-4">
+                <a href="" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Like</a>
+               </div>
+              <div class="col-md-4">
+                  <a href="/posts/<%= post.id %>"class="btn btn-default btn-sm"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Comment</a> 
+               </div>
+               <div class="col-md-4">
+                  <a href=""class="btn btn-default btn-sm"><span class="glyphicon glyphicon-share-alt"></span> Share</a>
+               </div>
+          </div>
+          <br>
+          <% if (post.user.id===currentUser.id) { %><a href="/users/<%= currentUser.id %>">
+            <form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
+                <input type="submit" value="DELETE" class="btn btn-danger">
+            </form>
+          <% } %>
+            <!-- <input type="submit" value="NEW COMMENT" class="btn btn-success"> -->
+        </div>
+      </div>
+    </div>
+  </div>
+ <% }) %>
 
 <% include ../partials/footer %>

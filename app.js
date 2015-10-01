@@ -50,8 +50,6 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(morgan('tiny'));
 
-
-
 //COOKIE SESSION
 app.use(session({
   maxAge: 3600000,//time
@@ -63,7 +61,24 @@ app.use(loginMiddleware);
 /*********  ROUTES *********/
 
 //ROOT for YELP
-app.get("/users/search", routeMiddleware.ensureLoggedIn, function (req,res){
+//app.get("/users/search", routeMiddleware.ensureLoggedIn, function (req,res){
+ // var yelp = require("yelp").createClient({
+   //consumer_key: process.env.CONSUMER_KEY, 
+    //consumer_secret: process.env.CONSUMER_SECRET,
+    //token: process.env.TOKEN,
+    //token_secret: process.env.TOKEN_SECRET
+  //});
+  // Request API access: http://www.yelp.com/developers/getting_started/api_access
+  //db.User.findById(req.session.id,function(err,user){
+   // yelp.search({term: "coffee", location: user.zipcode, limit: 4}, function(error, data) {
+    //  res.render("users/search", data);
+     /*res.send(data); */ 
+    //});
+  //});
+//});
+
+
+app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,res){
   var yelp = require("yelp").createClient({
     consumer_key: process.env.CONSUMER_KEY, 
     consumer_secret: process.env.CONSUMER_SECRET,
@@ -71,10 +86,19 @@ app.get("/users/search", routeMiddleware.ensureLoggedIn, function (req,res){
     token_secret: process.env.TOKEN_SECRET
   });
   // Request API access: http://www.yelp.com/developers/getting_started/api_access
-  db.User.findById(req.session.id,function(err,user){
-    yelp.search({term: "coffee", location: user.zipcode, limit: 4}, function(error, data) {
-      res.render("users/search", data);
-     /*res.send(data); */ 
+  // find first user by session (this is logged in user)
+  db.User.findById(req.session.id,function (err1, user1){
+    // find second user by params.user_id (this is user you want to chat with)
+    db.User.findById(req.params.user_id, function (err2, user2){
+      // make api call with first user's zipcode
+      yelp.search({term: "coffee", location: user1.zipcode, limit: 4}, function (error1, data1) {
+        // make api call with second user's zip code
+        yelp.search({term: "coffee", location: user2.zipcode, limit: 4}, function (error2, data2) {        
+          // render the chat page, pass in both the users and both of their api call response datas
+          res.render("users/chat", {data1: data1, data2: data2, user1: user1, user2: user2});
+         /*res.send(data); */ 
+        });
+      });
     });
   });
 });
@@ -215,9 +239,9 @@ app.get("/posts/:post_id/comments", function(req,res){
 });
 //CREATE COMMENT
  app.post("/posts/:post_id/comments",routeMiddleware.ensureLoggedIn, function(req,res){
-  var newComment = new db.Comment(req.body.comment);
-  newComment.author = req.session.id;
-  newComment.post = req.params.post_id;
+  var newComment = new db.Comment(req.body.comment);//just creating an instance it is not saved in db yet just into a memory 
+  newComment.author = req.session.id;//you are having a newComment.author is the same as the session id, litterally your are assigning to new comment outrh to be whatever your name is under logi ins
+  newComment.post = req.params.post_id;//you have a new post adn it it is and it is getting 
   newComment.save(function(err, comments){
      if(err){
        console.log(err);

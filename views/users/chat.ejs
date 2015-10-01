@@ -1,0 +1,50 @@
+<% include ../partials/header %>
+
+<p><img src="<%= user1.photo %>" alt="<%= user1.username %>"></p>
+<p><img src="<%= user2.photo %>" alt="<%= user2.username %>"></p>
+
+
+<p><% data1.businesses.forEach(function(business){ %>
+<div class="row">
+  <div class="col-sm-6" style="float:right">
+    <div class="thumbnail" >
+      
+      <div class="caption">
+      <img src="<%= business.rating_img_url %>" style="float:left" alt="rating">
+        <h3><%= business.name %></h3>
+        <p><%= business.snippet_text %></p>
+        <p><%= business.display_phone %></p>
+        <p><%= business.location.display_address %></p>
+        <br><iframe
+                             width="300"
+                             height="300"
+                             frameborder="0" style="border:0"
+                             src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBPKkQTPzsPbNxor5_aJ3DQQaXd2Lc3q0g
+                               &q=<%= business.location.display_address %>" allowfullscreen>
+                       </iframe>
+        <p><a href="<%= business.url %>"><%= business.url %></a></p>
+      </div>
+    </div>
+  </div>
+ <% }) %>
+</p>
+<p><% data2.businesses.forEach(function(business){ %>
+  <div class="col-sm-6" style="float:right">
+    <div class="thumbnail" >
+      
+      <div class="caption">
+      <img src="<%= business.rating_img_url %>" style="float:left" alt="rating">
+        <h3><%= business.name %></h3>
+        <p><%= business.snippet_text %></p>
+        <p><%= business.display_phone %></p>
+        <p><%= business.location.display_address %></p>
+        
+        <p><a href="<%= business.url %>"><%= business.url %></a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+ <% }) %>
+</p>
+<% include ../partials/footer %>

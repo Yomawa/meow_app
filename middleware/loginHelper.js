@@ -9,7 +9,16 @@ var loginHelpers = function (req, res, next) {//midelwre, we call next to go to 
     req.session.id = null;//claring session//clear hands the step
   };
 
-  next();
+  if (!req.session.id) {
+    res.locals.currentUser = undefined;
+    next();
+  }
+  else {
+    db.User.findById(req.session.id, function(err,user){
+      res.locals.currentUser = user;
+      next();
+  });
+  }
 };
 
 module.exports = loginHelpers;

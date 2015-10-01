@@ -29,10 +29,11 @@
       <div class="container">
             <div class="navbar-brand"  <a href="#">LOGO</a></div>
                 <ul class= "nav navbar-nav navbar-right">
-                    <li><a href="/posts">Home</a></li>
-                    <li><a href="/users">My Profile</a></li>
+                    <li><a href="/posts">Posts</a></li>
+                    <% if (currentUser) { %><li><a href="/users/<%= currentUser.id %>"><%= currentUser.username %></a></li>
                     <li><a href="#">Message</a></li>
                     <li><a href="/logout">Log out</a></li>
+                    <% } %>
                 </ul>
             </div>
   </nav>

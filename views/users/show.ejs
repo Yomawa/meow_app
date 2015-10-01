@@ -2,7 +2,6 @@
 <div class="col-sm-4 col-md-offset-4">
 <p><a href="/users/<%= user.id %>/edit" class="btn btn-default" role="button">Edit Profile</a> 
             <div class="thumbnail">
-              
               <div class="caption">
               <img src="<%= user.photo%>" alt="profile" width="200" height="200"> 
                <h3><%= user.username %></h3><!-- this refers to first key user -->
@@ -12,10 +11,8 @@
                <h5><%= user.favtoys %></h5>
                <h5><%= user.morecat %></h5>
                <h5><%= user.moreowner %></h5>
-               
-               
                   <!-- <a href="#" class="btn btn-default" role="button">Delete</a></p> -->
-                  <input type="submit" value="Message me" class="btn btn-primary">
+                  <a href="/users/<%= user.id %>/chat"><input type="submit" value="Message me" class="btn btn-primary"></a>
               </div>
             </div>
           </div>

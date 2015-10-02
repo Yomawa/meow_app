@@ -4,6 +4,13 @@
   width: 100%;
   max-width: 400px;
 }
+.profile_image {
+  margin: 0 auto;
+  display: table;
+  width: 100%;
+  max-width: 250px;
+}
+
 .space{
   padding:5px;
 }

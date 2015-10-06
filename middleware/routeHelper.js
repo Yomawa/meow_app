@@ -11,7 +11,7 @@ var routeHelpers = {
   },
 
   ensureCorrectPostUser: function(req, res, next) {
-    db.Post.findById(req.params.id).populate('user').exec(function(err,post){
+    db.Post.findById(req.params.id).populate('user').exec(function(err,post){//why am I populating here user
       if (post.user.id !== req.session.id) {
         res.redirect('/posts');
       }

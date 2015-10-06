@@ -34,13 +34,13 @@
                   </div>
               </div>
           <% }) %>
-   <div class="col-sm-4 col-md-offset-4">
-         <form action="/posts/<%= post.id %>/comments" method="POST">
-                <label for="coments"></label>
-                    <textarea type="text" name="comment[commentContent]" id="comment"class="form-control" rows="2" id="commentContent"  placeholder="Write your comment.." ></textarea>
-                <input class="btn btn-success btn-xs" value="Submit" type="submit">
-        
-        </form>
-    </div>
+                  <div class="col-sm-4 col-md-offset-4">
+                   <form action="/posts/<%= post.id %>/comments" method="POST">
+                          <label for="coments"></label>
+                              <textarea type="text" name="comment[commentContent]" id="comment"class="form-control" rows="2" id="commentContent"  placeholder="Write your comment.." ></textarea>
+                                <input class="btn btn-success btn-xs" value="Submit" type="submit">
+                        
+                  </form>
+              </div>
   
 <% include ../partials/footer %>

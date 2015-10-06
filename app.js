@@ -1,65 +1,34 @@
-var express = require('express'),
-    app = express(),
-    bodyParser = require('body-parser'),
-    morgan = require('morgan'),
-    methodOverride = require('method-override'),
-    session = require("cookie-session"),
-    db = require('./models'),
-
-   
- //YELP
-     /*oauthSignature = require('oauth-signature'),  
-     n = require('nonce')(),  
-     request = require('request'),  
-     qs = require('querystring'),  */
- /*_ = require('lodash');*/
-
-    loginMiddleware = require("./middleware/loginHelper");
-    routeMiddleware = require("./middleware/routeHelper");
-
-    require('dotenv').load();
-
-app.set('view engine', 'ejs');
-app.use(morgan('tiny'));
-app.use(methodOverride('_method'));
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({extended: true}));
-
-app.use(loginMiddleware);
 var express = require("express"),
 app = express(),
 bodyParser = require("body-parser"),
-methodOverride = require('method-override'),
+morgan = require("morgan"),
+methodOverride = require("method-override"),
+session = require("cookie-session"),
 db = require("./models"),
 morgan = require("morgan");
 
-app.set('view engine', 'ejs');
-app.use(methodOverride('_method'));
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(morgan('tiny'));var express = require("express"),
-app = express(),
-bodyParser = require("body-parser"),
-methodOverride = require('method-override'),
-db = require("./models"),
-morgan = require("morgan");
+loginMiddleware = require("./middleware/loginHelper");
+routeMiddleware = require("./middleware/routeHelper");
 
-app.set('view engine', 'ejs');
-app.use(methodOverride('_method'));
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(morgan('tiny'));
+require("dotenv").load();
+
+app.set("view engine", "ejs");
+app.use(morgan("tiny"));
+app.use(methodOverride("_method"));
+app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({extended: true}));
 
 //COOKIE SESSION
 app.use(session({
   maxAge: 3600000,//time
-  secret: 'supersecretro',//for communication session and cookie comunicate between each ohter via headers.
+  secret: "supersecretro",//for communication session and cookie comunicate between each ohter via headers.
   name: "double chocochip"//for the browser
 }));
 // use loginMiddleware everywhere!
 app.use(loginMiddleware);
 /*********  ROUTES *********/
 
+//MAKING YELP REQUEST
 app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,res){
   var yelp = require("yelp").createClient({
     consumer_key: process.env.CONSUMER_KEY, 
@@ -72,9 +41,9 @@ app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,re
   db.User.findById(req.session.id,function (err1, user1){
     // find second user by params.user_id (this is user you want to chat with)
     db.User.findById(req.params.user_id, function (err2, user2){
-      // make api call with first user's zipcode
+      // make api call with first user"s zipcode
       yelp.search({term: "coffee", location: user1.zipcode, limit: 3}, function (error1, data1) {
-        // make api call with second user's zip code
+        // make api call with second user"s zip code
         yelp.search({term: "coffee", location: user2.zipcode, limit: 3}, function (error2, data2) {          
           // render the chat page, pass in both the users and both of their api call response datas
           res.render("users/chat", {data1: data1, data2: data2, user1: user1, user2: user2});
@@ -86,7 +55,7 @@ app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,re
 });
 //pseudo code
 //search user by session id
-//make yelps search uer's .zipcode 
+//make yelps search uer"s .zipcode 
 //return 
 
 //ROOT
@@ -186,7 +155,7 @@ app.get("/posts/new", function (req,res){
 //CREATE
 app.post("/posts", routeMiddleware.ensureLoggedIn, function (req,res){
   var post = new db.Post(req.body.post);
-  post.user = req.session.id;
+  post.user = req.session.id;//where did I get post.user from???
   post.save(function(err, post){
     console.log(post);
     res.redirect("/posts");
@@ -230,7 +199,7 @@ app.get("/posts/:post_id/comments", function(req,res){
        res.render("comments/index");
      }else{
        db.Post.findById(req.params.post_id, function(err,post){
-         post.comments.push(comments);
+         post.comments.push(comments);//???
          // console.log(comments);
          post.save();
          res.redirect("/posts/"+req.params.post_id);

@@ -1,5 +1,11 @@
 var express = require("express"),
 app = express(),
+//???not sure about this one adding socket.io
+//io = require("socket.io").listen(app),
+ http = require('http').Server(app),
+io = require('socket.io')(http),
+//socket.io ends here
+
 bodyParser = require("body-parser"),
 morgan = require("morgan"),
 methodOverride = require("method-override"),
@@ -193,13 +199,13 @@ app.get("/posts/:post_id/comments", function(req,res){
   var newComment = new db.Comment(req.body.comment);//just creating an instance it is not saved in db yet just into a memory 
   newComment.author = req.session.id;//you are having a newComment.author is the same as the session id, litterally your are assigning to new comment outrh to be whatever your name is under logi ins
   newComment.post = req.params.post_id;//you have a new post adn it it is and it is getting 
-  newComment.save(function(err, comments){
+  newComment.save(function(err, comment){//comments will refer to my new comment 
      if(err){
        console.log(err);
        res.render("comments/index");
      }else{
        db.Post.findById(req.params.post_id, function(err,post){
-         post.comments.push(comments);//???
+         post.comments.push(comment);//???
          // console.log(comments);
          post.save();
          res.redirect("/posts/"+req.params.post_id);

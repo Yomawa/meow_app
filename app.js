@@ -3,7 +3,7 @@ app = express(),
 //???not sure about this one adding socket.io
 //io = require("socket.io").listen(app),
  http = require('http').Server(app),
-io = require('socket.io')(http),
+ io = require('socket.io')(http),
 //socket.io ends here
 
 bodyParser = require("body-parser"),
@@ -125,6 +125,12 @@ app.get("/users/:id", routeMiddleware.ensureLoggedIn, function (req,res){
     res.render("users/show",{user: user});
   });
 });
+
+//NOT SURE IS THIS CORRECT ADDING connection fallowing tutrial http://socket.io/get-started/chat/
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+//this is all i added
 
 //EDIT
 app.get("/users/:id/edit",routeMiddleware.ensureLoggedIn, routeMiddleware.ensureCorrectUser, function (req, res){

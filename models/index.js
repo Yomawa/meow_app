@@ -9,4 +9,5 @@ mongoose.set("debug",true);//in my terminal loogs out
 
 module.exports.User = require("./user");
 module.exports.Post = require("./post");//server the purpuse or conecting
+module.exports.Text = require("./text");
 module.exports.Comment = require("./comment");

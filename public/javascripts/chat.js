@@ -4,13 +4,19 @@ $(function() {
   $('#socket').submit(function(e){
     e.preventDefault();
     console.log('msg sent!');
-    socket.emit('chat message', $('#m').val());
-    $('#m').val('');
+    var author_name = $('#author_name').val();
+    var message = $('#message').val();
+    var photo = $('#photo').val();
+    var author_id = $('#author_id').val();
+    var recipient_id = $("#recipient_id").val();
+    var body = {message: message, author: author_id, photo: photo, author_name: author_name, recipient: recipient_id};
+    socket.emit('chat message', body);
+    $('#message').val('');
   });
   /*socket.on('chat message', function(msg){
     $('#message').append($('<li>').text($('#m').val());*/
-
+    // "msg" below is the "body" object from above (line 10)
     socket.on('chat message', function(msg){
-    $('#messages').append($('<li>').text(msg));
+    $('#messages').append('<img src="'+msg.photo+'" height="64px" width="64px">').append($('<li>').text(msg.author_name + ': ' + msg.message));
   });
 });

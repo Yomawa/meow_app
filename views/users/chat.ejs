@@ -14,14 +14,26 @@
           <div class="col-sm-6">
             <div class="thumbnail">
                 <div class="caption">
-                  <h4>Message</h4>
+                  <h4>Messages</h4>
                 </div>
                 <div>
                 <ul id="messages">
-                  <li>Messages</li>
+                <% messages.forEach(function(message) { %>
+                  <img src="<%= message.photo %>" height="64px" width="64px">
+                  <li><%= message.author_name %>: <%= message.message %></li>
+                <% }) %>                  
                 </ul>
                   <form id="socket" action="">
-                    <input id="m" autocomplete="off" /><button>Send</button>
+                    <!-- This input gives us the author's id -->
+                    <input type="hidden" id="author_id" value="<%= user1.id %>">
+                    <!-- This input gives us the recipient's id -->
+                    <input type="hidden" id="recipient_id" value="<%= user2.id %>">
+                    <!-- This input gives us the user's name -->
+                    <input type="hidden" id="author_name" value="<%= user1.username %>">
+                    <!-- This input gives us their picture URL -->
+                    <input type="hidden" id="photo" value="<%= user1.photo %>">
+                    <!-- This input gets the user's message -->
+                    <input id="message" autocomplete="off" /><button>Send</button>
                   </form>
                 </div>
             </div>

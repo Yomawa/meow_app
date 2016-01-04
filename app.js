@@ -47,30 +47,41 @@ app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,re
     token_secret: process.env.TOKEN_SECRET
   });
   // Request API access: http://www.yelp.com/developers/getting_started/api_access
-  // find first user by session (this is logged in user)
-  db.User.findById(req.session.id,function (err1, user1){
-    // find second user by params.user_id (this is user you want to chat with)
-    db.User.findById(req.params.user_id, function (err2, user2){
-      // make api call with first user"s zipcode
-      yelp.search({term: "coffee", location: user1.zipcode, limit: 3}, function (error1, data1) {
-        // make api call with second user"s zip code
-        yelp.search({term: "coffee", location: user2.zipcode, limit: 3}, function (error2, data2) {          
-          // render the chat page, pass in both the users and both of their api call response datas
-          res.render("users/chat", {data1: data1, data2: data2, user1: user1, user2: user2});
-         /*res.send(data); */ 
+  // find all messages from recipient
+  db.Text.find({author: req.params.user_id}, function (err0, messages0) {
+    // find all messages from current user
+    db.Text.find({author: req.session.id}, function (err1, messages1) {  
+      // find first user by session (this is logged in user)
+      var messages = messages0.concat(messages1);
+      messages.sort(function(a, b){
+          var keyA = new Date(a.time),
+              keyB = new Date(b.time);
+          // Compare the 2 dates
+          if(keyA < keyB) return -1;
+          if(keyA > keyB) return 1;
+          return 0;
+      });
+      console.log("MESSAGES:", messages);
+      db.User.findById(req.session.id,function (err2, user1){
+        // find second user by params.user_id (this is user you want to chat with)
+        db.User.findById(req.params.user_id, function (err3, user2){
+          // make api call with first user"s zipcode
+          yelp.search({term: "coffee", location: user1.zipcode, limit: 3}, function (error1, data1) {
+            // make api call with second user"s zip code
+            yelp.search({term: "coffee", location: user2.zipcode, limit: 3}, function (error2, data2) {          
+              // render the chat page, pass in both the users and both of their api call response datas
+              res.render("users/chat", {messages: messages, data1: data1, data2: data2, user1: user1, user2: user2});
+             /*res.send(data); */ 
+            });
+          });
         });
       });
     });
   });
 });
-//pseudo code
-//search user by session id
-//make yelps search uer"s .zipcode 
-//return 
+
 
 //ROOT
-
-
 
 app.get("/", routeMiddleware.ensureLoggedIn, function (req,res){
   console.log("Server works");
@@ -147,39 +158,22 @@ app.get("/logout", function (req, res){
   res.redirect("/");
 });
 //NEW
-/*app.get("/users/new", function(req, res){
-  res.render("users/new");
-});*/
+// app.get("/users/new", function(req, res){
+//   res.render("users/new");
+// });
 
 
 //SOCKET
-//???NOT SURE DO I NEED THIS, THIS IS FOR SOCKET
-// app.get('/', function(req, res){
-//   res.render('index');
-// });
-
-//???NOT SURE IS THIS CORRECT I ADDED THIS CODE TOO,
-// app.get('/', function(req, res){
-//   res.sendfile('/users/chat.ejs');
-// });
-
-//NOT SURE IS THIS CORRECT ADDING connection fallowing tutrial http://socket.io/get-started/chat/
-// io.on('connection', function(socket){
-//   console.log('a user connected');
-//    socket.on('disconnect', function(){
-//     console.log('user disconnected');
-//   });
-// });
-
 io.on('connection', function(socket){
   console.log('CONNECTED!!!!');
   socket.on('chat message', function(msg){
-    console.log('message: ' + msg);
+    db.Text.create(msg, function (err, text) {
+      console.log("TEXT: ",text);
+    });
     io.emit('chat message', msg);
   });
 });
 //this is all i added
-
 
 //SHOW
 app.get("/users/:id", routeMiddleware.ensureLoggedIn, function (req,res){

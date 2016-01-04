@@ -5,6 +5,8 @@ app = express(),
  http = require('http').Server(app),
  io = require('socket.io')(http),
 //socket.io ends here
+//???facebook
+facebook = require('facebook-js'),
 
 bodyParser = require("body-parser"),
 morgan = require("morgan"),
@@ -33,6 +35,7 @@ app.use(session({
 // use loginMiddleware everywhere!
 app.use(loginMiddleware);
 /*********  ROUTES *********/
+
 
 //MAKING YELP REQUEST
 app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,res){
@@ -65,6 +68,9 @@ app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,re
 //return 
 
 //ROOT
+
+
+
 app.get("/", routeMiddleware.ensureLoggedIn, function (req,res){
   console.log("Server works");
   res.redirect("/posts");
@@ -75,7 +81,8 @@ app.get("/users", function (req,res){
     res.render("users/index", {users: users});
   });
 });
-//NEW - LOG IN
+
+
 app.get("/login", routeMiddleware.preventLoginSignup, function (req,res){
   res.render("users/login");
 });
@@ -119,6 +126,35 @@ app.get("/logout", function (req, res){
   res.render("users/new");
 });*/
 
+
+//SOCKET
+//???NOT SURE DO I NEED THIS, THIS IS FOR SOCKET
+app.get('/', function(req, res){
+  res.render('index');
+});
+
+//???NOT SURE IS THIS CORRECT I ADDED THIS CODE TOO,
+// app.get('/', function(req, res){
+//   res.sendfile('/users/chat.ejs');
+// });
+
+//NOT SURE IS THIS CORRECT ADDING connection fallowing tutrial http://socket.io/get-started/chat/
+// io.on('connection', function(socket){
+//   console.log('a user connected');
+//    socket.on('disconnect', function(){
+//     console.log('user disconnected');
+//   });
+// });
+
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    console.log('message: ' + msg);
+    io.emit('chat message', msg);
+  });
+});
+//this is all i added
+
+
 //SHOW
 app.get("/users/:id", routeMiddleware.ensureLoggedIn, function (req,res){
   db.User.findById(req.params.id, function(err, user){
@@ -126,11 +162,6 @@ app.get("/users/:id", routeMiddleware.ensureLoggedIn, function (req,res){
   });
 });
 
-//NOT SURE IS THIS CORRECT ADDING connection fallowing tutrial http://socket.io/get-started/chat/
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
-//this is all i added
 
 //EDIT
 app.get("/users/:id/edit",routeMiddleware.ensureLoggedIn, routeMiddleware.ensureCorrectUser, function (req, res){

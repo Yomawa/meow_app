@@ -5,8 +5,9 @@ app = express(),
  http = require('http').Server(app),
  io = require('socket.io')(http),
 //socket.io ends here
-//???facebook
+//???facebook auth
 facebook = require('facebook-js'),
+//globals = require ('./config.js'),
 
 bodyParser = require("body-parser"),
 morgan = require("morgan"),
@@ -86,6 +87,30 @@ app.get("/users", function (req,res){
 app.get("/login", routeMiddleware.preventLoginSignup, function (req,res){
   res.render("users/login");
 });
+
+//TRYING TO LOGIN WITH FB
+// app.get ("/login", function(req,res){
+//  res.redirect(facebook.getAuthorizeUrl({
+//   client_id: globals.fb.id,
+//   redirect_uri: "#{globals.url}/authed",
+//   scope: "email"
+//  }));
+// });
+// app.get("/authed",function(req, res){
+//    facebook.getAccessToken globals.fb.id, globals.fb.secret, req.param("code"), "#{globals.url}authed",(err,accessToken, refreshToken)
+//    //not sure can i write this like i did
+//    function(req,res){
+//     req.session.accessToken = accessToken;
+//     require.session.refreshToken = refreshToken;
+//     res.redirect('/fbstatus');
+//    }
+// });
+// app.get('/fbstatus',function(req,res){
+//  facebook.apiCall 'GET', 'me',{access_token: req.session.accessToken},(err,resp,body){
+//   res.render("authenticated",{facebook_data: body});
+//  }
+// });//ENDS HERE TRYING TO LOGIN WITH FB
+
 //CREATE-LOG IN
 app.post("/login", function (req,res){
   db.User.authenticate(req.body.user,
@@ -129,9 +154,9 @@ app.get("/logout", function (req, res){
 
 //SOCKET
 //???NOT SURE DO I NEED THIS, THIS IS FOR SOCKET
-app.get('/', function(req, res){
-  res.render('index');
-});
+// app.get('/', function(req, res){
+//   res.render('index');
+// });
 
 //???NOT SURE IS THIS CORRECT I ADDED THIS CODE TOO,
 // app.get('/', function(req, res){
@@ -147,6 +172,7 @@ app.get('/', function(req, res){
 // });
 
 io.on('connection', function(socket){
+  console.log('CONNECTED!!!!');
   socket.on('chat message', function(msg){
     console.log('message: ' + msg);
     io.emit('chat message', msg);
@@ -251,6 +277,6 @@ app.get("/posts/:post_id/comments", function(req,res){
    });
  });
 // START SERVER
-app.listen(process.env.PORT || 3000, function(){
+http.listen(process.env.PORT || 3000, function(){
   console.log("Server is listening on port 3000");
 });

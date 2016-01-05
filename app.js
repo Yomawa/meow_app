@@ -219,6 +219,7 @@ app.get("/posts/new", function (req,res){
 app.post("/posts", routeMiddleware.ensureLoggedIn, function (req,res){
   var post = new db.Post(req.body.post);
   post.user = req.session.id;//where did I get post.user from???
+  post.like = 0;
   post.save(function(err, post){
     console.log(post);
     res.redirect("/posts");
@@ -228,6 +229,17 @@ app.post("/posts", routeMiddleware.ensureLoggedIn, function (req,res){
 app.get("/posts/:id",routeMiddleware.ensureLoggedIn, function (req,res){
   db.Post.findById(req.params.id).deepPopulate("comments.author user").exec(function(err,outerPost){
       res.render("posts/show",{post:outerPost});
+  });
+});
+// LIKE
+app.get("/posts/:id/like", routeMiddleware.ensureLoggedIn, function (req, res) {
+  db.Post.findById(req.params.id, function (err, post) {
+    post.like += 1;
+    post.save();
+    //(function (err, post) {
+    //   console.log(post);
+
+    // });
   });
 });
 //EDIT

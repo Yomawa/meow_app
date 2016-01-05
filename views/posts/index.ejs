@@ -20,7 +20,7 @@
                       <h4 ><a class="h" href="/users/<%= post.user.id %>"><%= post.user.username %></a></h4>
                     </div>
                      <div class="col-sm-4">
-                       <h6 class="right">Date:<%= post.user.date %></h6>
+                       <h6 class="right">Date:<%= post.time %></h6>
                     </div>
                   </div>
               </div>
@@ -39,7 +39,7 @@
             <div class="button">
               <div class="row">
                   <div class="col-md-4">
-                    <a href="" class="button" ><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Like</a>
+                    <a href="/posts/<%= post.id %>/like" id="like" class="button" ><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Like </a><span id="like_count"><%= post.like %></span>
                    </div>
                   <div class="col-md-4">
                       <a class="button" href="/posts/<%= post.id %>"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Comment</a> 

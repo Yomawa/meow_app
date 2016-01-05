@@ -3,7 +3,9 @@ var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 var postSchema = new mongoose.Schema({
                     title: String,
+                    time : { type : Date, default: Date.now },
                     postContent: String,
+                    like: Number,
                     /*date: {type:String, default: datePost},*/
                     url: String,
                     photo:String,

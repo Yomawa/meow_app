@@ -235,11 +235,9 @@ app.get("/posts/:id",routeMiddleware.ensureLoggedIn, function (req,res){
 app.get("/posts/:id/like", routeMiddleware.ensureLoggedIn, function (req, res) {
   db.Post.findById(req.params.id, function (err, post) {
     post.like += 1;
-    post.save();
-    //(function (err, post) {
-    //   console.log(post);
-
-    // });
+    post.save(function (err, post) {
+      console.log(post);
+    });
   });
 });
 //EDIT

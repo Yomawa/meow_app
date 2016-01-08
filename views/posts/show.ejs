@@ -13,8 +13,8 @@
                   <div class="col-sm-4">
                     <p ><a class="h" href="/users/<%= post.user.id %>"><%= post.user.username %></a></p>
                   </div>
-                  <div class="col-sm-4">
-                      <p class="right">Date: <%= post.time %></p>
+                  <div class="col-sm-8">
+                      <p class="right"><%= post.time.getYear()+ 1900 + " - " + post.time.getMonth()+1 + " - " + post.time.getDate()%></p>
                   </div>
                 </div>
               </div>

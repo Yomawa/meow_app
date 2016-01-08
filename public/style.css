@@ -92,6 +92,15 @@ li{
   -ms-hyphens: auto;
   hyphens: auto;
 }
+.description{
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 8px;
+}
+.value{
+  font-size: 15px;
+  line-height: 30px;
+}
 /*STYLING FOR SOCKET MESS*/
 /** { margin: 0; padding: 0; box-sizing: border-box; }
 body { font: 13px Helvetica, Arial; }

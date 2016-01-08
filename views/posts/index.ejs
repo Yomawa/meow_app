@@ -19,8 +19,8 @@
                     <div class="col-sm-4">
                       <h4 ><a class="h" href="/users/<%= post.user.id %>"><%= post.user.username %></a></h4>
                     </div>
-                     <div class="col-sm-4">
-                       <h6 class="right"><%= post.time.getYear()+ 1900 + "-" + post.time.getMonth()+1 + "-" + post.time.getDate()%></h6>
+                     <div class="col-sm-7 right">
+                       <h6 ><%= post.time.getYear()+ 1900 + " - " + post.time.getMonth()+1 + " - " + post.time.getDate()%></h6>
                     </div>
                   </div>
               </div>

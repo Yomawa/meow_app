@@ -4,13 +4,13 @@
             <div class="thumbnail">
               <div class="caption">
               <img  src="<%= user.photo%>" alt="profile" width="400" height="400">  
-               <h4>User Name:</h4> <%= user.username %><!-- this refers to first key user -->
-               <h5>zipcode: <%= user.zipcode %></h5>
-               <h5>Cat name: <%= user.catname %></h5>
-               <h5>Cat's age: <%= user.age %></h5>
-               <h5>Cat's favorite toy: <%= user.favtoys %></h5>
-               <h5>More about cat: <%= user.morecat %></h5>
-               <h5>Something about owner: <%= user.moreowner %></h5>
+               <span class="description">User name:</span> <span class="value"><%= user.username %></span></br> <!-- this refers to first key user -->
+               <span class="description">zipcode:</span> <span class="value"><%= user.zipcode %></span></br>
+               <span class="description">Cat name:</span> <span class="value"><%= user.catname %></span></br>
+               <span class="description">Cat's age:</span> <span class="value"><%= user.age %></span></br>
+               <span class="description">Cat's favorite toy:</span> <span class="value"><%= user.favtoys %></span></br>
+               <span class="description">More about cat:</span> <span class="value"><%= user.morecat %></span></br>
+               <span class="description">Something about owner:</span> <span class="value"><%= user.moreowner %></span></br>
                   <!-- <a href="#" class="btn btn-default" role="button">Delete</a></p> -->
                   <a href="/users/<%= user.id %>/chat"><input type="submit" value="Message me" class="btn btn-info"></a>
               </div>

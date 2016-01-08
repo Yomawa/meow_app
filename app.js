@@ -211,6 +211,7 @@ app.get("/posts", routeMiddleware.ensureLoggedIn, function (req,res){
     res.render("posts/index", {posts: posts.reverse()});
   });
 });
+
 //NEW
 app.get("/posts/new", function (req,res){
   res.render("posts/new");

@@ -1,10 +1,10 @@
 <% include ../partials/header %>
-<div class="col-sm-3 col-md-offset-4 profile_image">
+<div class="col-md-8 col-md-offset-4 profile_image">
 <p><a href="/users/<%= user.id %>/edit" class="btn btn-default" role="button">Edit Profile</a> 
             <div class="thumbnail">
               <div class="caption">
-              <img  src="<%= user.photo%>" alt="profile" width="250" height="250"> 
-               <h4>User Name: <%= user.username %></h4><!-- this refers to first key user -->
+              <img  src="<%= user.photo%>" alt="profile" width="400" height="400">  
+               <h4>User Name:</h4> <%= user.username %><!-- this refers to first key user -->
                <h5>zipcode: <%= user.zipcode %></h5>
                <h5>Cat name: <%= user.catname %></h5>
                <h5>Cat's age: <%= user.age %></h5>

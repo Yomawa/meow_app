@@ -33,6 +33,15 @@ app.use(loginMiddleware);
 /*********  ROUTES *********/
 
 
+// remove all users and post DO NOT USE IT it's dangerous 
+app.get('/users/delete_all', function (req, res) {
+  db.User.remove({}, function (err, removed){
+    db.Post.remove({}, function (err, removed){
+      res.redirect('/');    
+    });
+  });
+});
+
 //MAKING YELP REQUEST
 app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,res){
   var yelp = require("yelp").createClient({
@@ -43,9 +52,9 @@ app.get("/users/:user_id/chat", routeMiddleware.ensureLoggedIn, function (req,re
   });
   // Request API access: http://www.yelp.com/developers/getting_started/api_access
   // find all messages from recipient
-  db.Text.find({author: req.params.user_id}, function (err0, messages0) {
+  db.Text.find({author: req.params.user_id, recipient: req.session.id}, function (err0, messages0) {
     // find all messages from current user
-    db.Text.find({author: req.session.id}, function (err1, messages1) {  
+    db.Text.find({author: req.session.id, recipient: req.params.user_id}, function (err1, messages1) {  
       // find first user by session (this is logged in user)
       var messages = messages0.concat(messages1);
       messages.sort(function(a, b){

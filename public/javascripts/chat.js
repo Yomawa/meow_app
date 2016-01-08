@@ -17,6 +17,6 @@ $(function() {
     $('#message').append($('<li>').text($('#m').val());*/
     // "msg" below is the "body" object from above (line 10)
     socket.on('chat message', function(msg){
-    $('#messages').append('<img src="'+msg.photo+'" height="64px" width="64px">').append($('<li>').text(msg.author_name + ': ' + msg.message));
+    $('#messages').append('<img src="'+msg.photo+'" class="img-circle" height="35px" class="img-circle"width="35px">').append($('<li>').text(msg.author_name + ': ' + msg.message));
   });
 });

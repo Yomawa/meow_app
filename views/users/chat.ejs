@@ -8,7 +8,6 @@
             </div>
           </div>
         </div>
-      
         <div class="row">
         <!-- DISPLAY MESSAGE -->
           <div class="col-sm-6">
@@ -19,8 +18,9 @@
                 <div>
                 <ul id="messages">
                 <% messages.forEach(function(message) { %>
-                  <img src="<%= message.photo %>" height="64px" width="64px">
-                  <li><%= message.author_name %>: <%= message.message %></li>
+                
+                  <img class="img-circle" src="<%= message.photo%>" height="35px" width="35px">
+                  <p><%= message.author_name%>: <%= message.message %></p>
                 <% }) %>                  
                 </ul>
                   <form id="socket" action="">
@@ -33,16 +33,12 @@
                     <!-- This input gives us their picture URL -->
                     <input type="hidden" id="photo" value="<%= user1.photo %>">
                     <!-- This input gets the user's message -->
-                    <input id="message" autocomplete="off" /><button>Send</button>
+                    <input class="form-control" autofocus type="text" id="message" autocomplete="off" />
+                    <button class="btn btn-warning">Send</button>
                   </form>
                 </div>
             </div>
-            <!-- <div class="thumbnail">
-                <div class="caption">
-                  <h4>Message back</h4>
-                  <p>...</p>
-                </div>
-            </div> -->
+           
           </div>
           <div class="col-sm-3" >
             <p><% data1.businesses.forEach(function(business){ %>

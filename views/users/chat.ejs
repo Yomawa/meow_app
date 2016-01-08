@@ -13,16 +13,15 @@
           <div class="col-sm-6">
             <div class="thumbnail">
                 <div class="caption">
-                  <h4>Messages</h4>
+                  <h4>Let's Chat</h4>
                 </div>
                 <div>
-                <ul id="messages">
+                <ul class="col-sm-6" id="messages">
                 <% messages.forEach(function(message) { %>
-                
-                  <img class="img-circle" src="<%= message.photo%>" height="35px" width="35px">
-                  <p><%= message.author_name%>: <%= message.message %></p>
-                <% }) %>                  
-                </ul>
+                    <img class="img-circle" src="<%= message.photo%>" height="35px" width="35px">
+                    <p><%= message.author_name%>: <%= message.message %></p>
+                  <% }) %>                  
+                  </ul>
                   <form id="socket" action="">
                     <!-- This input gives us the author's id -->
                     <input type="hidden" id="author_id" value="<%= user1.id %>">
